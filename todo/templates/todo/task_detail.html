@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task Detail</title>
+</head>
+
+<body>
+    <h1>{{ task.title }}</h1>
+    <ul>
+        <li>Posted at: {{ task.posted_at }}</li>
+        {% if task.due_at %}
+        <li>Due at: {{ task.due_at }}</li>
+        {% endif %}
+        {% if task.completed %}
+        <li>Status: Completed</li>
+        {% else %}
+        <li>Status: Not Completed</li>
+        {% endif %}
+    </ul>
+
+    <!-- コメント一覧の表示 -->
+    <h2>Comments</h2>
+    <div>
+        {% for comment in comments %}
+        <p><strong>{{ comment.author }}</strong>: {{ comment.text }}</p>
+        <p>{{ comment.created_at }}</p>
+        {% endfor %}
+    </div>
+
+    <!-- コメント追加フォーム -->
+    <h2>Add a comment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add comment</button>
+    </form>
+
+    <div>
+        <a href="{% url 'index' %}">Top</a>
+        <a href="{% url 'task_edit' task.id %}">Edit</a>
+        <a href="{% url 'task_delete' task.id %}">Delete</a>
+    </div>
+</body>
+
+</html>
